@@ -1,3 +1,7 @@
+import c from './Header.module';
+
+console.log(c);
+
 const Header = () => {
   return (
     <header className="header container">
