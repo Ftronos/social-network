@@ -1,0 +1,16 @@
+.dialogs__messages__item {
+  display: flex;
+  max-width: 50%;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: lightblue;
+  margin-bottom: 5px;
+}
+
+.dialogs__messages__item_left {
+  align-self: flex-start;
+}
+
+.dialogs__messages__item_right {
+  align-self: flex-end;
+}

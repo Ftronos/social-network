@@ -1,0 +1,15 @@
+.item {
+  padding: 5px 0;
+}
+
+.item a {
+  text-decoration: none;
+  transition: .5s;
+  color: inherit;
+}
+
+
+.item a:hover,
+.activeClassLink {
+  padding-left: 10px;
+}
