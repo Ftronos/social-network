@@ -1,10 +1,9 @@
 import c from "./Button.module.css";
 
-const Button = (state) => {
-  console.log(state);
+const Button = (props) => {
   return (
-    <button onClick={c.click} className={c.button}>
-      {state.buttonText}
+    <button onClick={props.click} className={c.button}>
+      {props.buttonText}
     </button>
   );
 };

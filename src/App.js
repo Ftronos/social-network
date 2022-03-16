@@ -15,10 +15,23 @@ function App(props) {
         <Sidebar />
         <div className={`${k.container} content`}>
           <Routes>
-            <Route path="/profile" element={<Profile store={props.store} />} />
+            <Route
+              path="/profile"
+              element={
+                <Profile
+                  dispatch={props.dispatch}
+                  state={props.state.profilePage}
+                />
+              }
+            />
             <Route
               path="/dialogs/*"
-              element={<Dialogs state={props.state.dialogsPage} />}
+              element={
+                <Dialogs
+                  dispatch={props.dispatch}
+                  state={props.state.dialogsPage}
+                />
+              }
             />
           </Routes>
         </div>

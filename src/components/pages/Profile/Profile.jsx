@@ -4,8 +4,8 @@ import ProfileInfo from "components/Profile/ProfileInfo";
 const Profile = (props) => {
   return (
     <div>
-      <ProfileInfo user={props.store.getState().profilePage.user} />
-      <MyPosts store={props.store} />
+      <ProfileInfo user={props.state.user} />
+      <MyPosts dispatch={props.dispatch} state={props.state} />
     </div>
   );
 };
