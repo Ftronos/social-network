@@ -7,7 +7,7 @@ import Button from "components/Kits/Buttons/Button/Button";
 import {
   addMessageActionCreator,
   updateNewMessageTextActionCreator,
-} from "redux/state";
+} from "redux/dialogs_reducer";
 
 const Dialogs = (props) => {
   const dialogsElements = props.state.dialogs.map((item) => (

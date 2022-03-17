@@ -1,17 +1,16 @@
-import { NavLink } from 'react-router-dom';
-import c from './Nav.module.css';
+import { NavLink } from "react-router-dom";
+import c from "./Nav.module.css";
 
-const Nav = () => {
-  return (
-    <nav className="nav">
-      <div className={c.item}>
-        <NavLink to="/profile" className={({ isActive }) => isActive ? c.activeClassLink : ""}>Profile</NavLink>
-      </div>
-      <div className={c.item}>
-        <NavLink to="/dialogs" className={({ isActive }) => isActive ? c.activeClassLink : ""}>Messages</NavLink>
-      </div>
-    </nav>
-  )
-}
+const Nav = (props) => {
+  const navElements = props.state.nav.map((item) => (
+    <div className={c.item}>
+      <NavLink to={item.link} key={item.id}>
+        {item.name}
+      </NavLink>
+    </div>
+  ));
+
+  return <nav className="nav">{navElements}</nav>;
+};
 
 export default Nav;

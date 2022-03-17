@@ -12,7 +12,7 @@ function App(props) {
     <BrowserRouter>
       <div className="app-wrapper">
         <Header />
-        <Sidebar />
+        <Sidebar state={props.state.sidebar} />
         <div className={`${k.container} content`}>
           <Routes>
             <Route
