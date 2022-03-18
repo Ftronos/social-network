@@ -1,11 +1,11 @@
-import MyPosts from "components/Posts/UserPosts/UserPosts";
-import ProfileInfo from "components/Profile/ProfileInfo";
+import MyPostsContainer from "components/Posts/UserPosts/UserPostsContainer";
+import ProfileInfoContainer from "components/Profile/ProfileInfoContainer";
 
 const Profile = (props) => {
   return (
     <div>
-      <ProfileInfo user={props.state.user} />
-      <MyPosts dispatch={props.dispatch} state={props.state} />
+      <ProfileInfoContainer store={props.store} />
+      <MyPostsContainer store={props.store} />
     </div>
   );
 };

@@ -3,27 +3,22 @@ import c from "./UserPosts.module.css";
 import k from "Kits.module.css";
 import React from "react";
 import Button from "components/Kits/Buttons/Button/Button";
-import {
-  addPostActionCreator,
-  updateNewPostTextActionCreator,
-} from "redux/profile_reducer";
 
 const Posts = (props) => {
-  const postsElements = props.state.myPosts.map((item) => (
+  const postsElements = props.posts.map((item) => (
     <Post msg={item.text} key={item.id} />
   ));
 
   const textarea = React.createRef();
 
-  const addPost = () => {
-    props.dispatch(addPostActionCreator());
-    props.dispatch(updateNewPostTextActionCreator(""));
+  const onAddPost = () => {
+    props.addPost();
   };
 
   const onPostChange = () => {
     let text = textarea.current.value;
 
-    props.dispatch(updateNewPostTextActionCreator(text));
+    props.updateNewPostText(text);
   };
 
   return (
@@ -36,9 +31,9 @@ const Posts = (props) => {
         rows="10"
         className={k.input}
         onChange={onPostChange}
-        value={props.state.newPostText}
+        value={props.newPostText}
       />
-      <Button click={addPost} buttonText="Добавить" />
+      <Button click={onAddPost} buttonText="Добавить" />
       {/* <button className={k.button} onClick={addPost}>
         Добавить
       </button> */}

@@ -6,19 +6,19 @@ import reportWebVitals from "./reportWebVitals";
 
 import store from "redux/redux-store";
 
-const renderEntireTree = (state) => {
+const renderEntireTree = (store) => {
   ReactDOM.render(
     <React.StrictMode>
-      <App state={state} dispatch={store.dispatch.bind(store)} />
+      <App store={store} />
     </React.StrictMode>,
     document.getElementById("root")
   );
 };
 
-renderEntireTree(store.getState());
+renderEntireTree(store);
 
 store.subscribe(() => {
-  renderEntireTree(store.getState());
+  renderEntireTree(store);
 });
 
 // If you want to start measuring performance in your app, pass a function
