@@ -1,11 +1,11 @@
 import MyPostsContainer from "components/Posts/UserPosts/UserPostsContainer";
 import ProfileInfoContainer from "components/Profile/ProfileInfoContainer";
 
-const Profile = (props) => {
+const Profile = () => {
   return (
     <div>
-      <ProfileInfoContainer store={props.store} />
-      <MyPostsContainer store={props.store} />
+      <ProfileInfoContainer />
+      <MyPostsContainer />
     </div>
   );
 };

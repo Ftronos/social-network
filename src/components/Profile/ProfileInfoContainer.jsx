@@ -1,7 +1,12 @@
-import ProfileInfo from "./ProfileInfo";
+import ProfileInfo from "components/Profile/ProfileInfo";
+import StoreContext from "storeContext";
 
-const ProfileInfoContainer = (props) => {
-  return <ProfileInfo user={props.store.getState().profilePage.user} />;
+const ProfileInfoContainer = () => {
+  return (
+    <StoreContext.Consumer>
+      {(store) => <ProfileInfo user={store.getState().profilePage.user} />}
+    </StoreContext.Consumer>
+  );
 };
 
 export default ProfileInfoContainer;

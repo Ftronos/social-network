@@ -12,14 +12,11 @@ function App(props) {
     <BrowserRouter>
       <div className="app-wrapper">
         <Header />
-        <Sidebar store={props.store} />
+        <Sidebar />
         <div className={`${k.container} content`}>
           <Routes>
-            <Route path="/profile" element={<Profile store={props.store} />} />
-            <Route
-              path="/dialogs/*"
-              element={<DialogsContainer store={props.store} />}
-            />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/dialogs/*" element={<DialogsContainer />} />
           </Routes>
         </div>
       </div>
