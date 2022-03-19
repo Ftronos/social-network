@@ -1,0 +1,39 @@
+.user {
+  display: grid;
+  grid-template-areas:
+    "image info"
+    "button info";
+  margin-bottom: 20px;
+  grid-gap: 20px;
+  grid-template-columns: auto 1fr;
+}
+
+.user__photo {
+  width: 100px;
+  height: 100px;
+  margin-right: 50px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.6);
+  grid-area: image;
+}
+
+.user__info {
+  display: flex;
+  flex-direction: column;
+  font-size: 24px;
+  grid-area: info;
+}
+
+.user__location {
+  font-size: 16px;
+}
+
+.user__status {
+  margin-top: auto;
+  font-style: italic;
+  font-size: 18px;
+}
+
+.user__button {
+  grid-area: button;
+}

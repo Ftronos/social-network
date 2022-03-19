@@ -6,10 +6,10 @@ import React from "react";
 import Button from "components/Kits/Buttons/Button/Button";
 
 const Dialogs = (props) => {
-  const dialogsElements = props.dialogs.map((item) => (
+  const dialogsElements = props.dialogsPage.dialogs.map((item) => (
     <DialogItem id={item.id} userName={item.name} key={item.id} />
   ));
-  const messagesElements = props.messages.map((item) => (
+  const messagesElements = props.dialogsPage.messages.map((item) => (
     <Message text={item.text} position={item.position} key={item.id} />
   ));
 
@@ -37,7 +37,7 @@ const Dialogs = (props) => {
           rows="10"
           className={k.input}
           onChange={onMessageChange}
-          value={props.newMessageText}
+          value={props.dialogsPage.newMessageText}
         />
         <Button click={onAddMessage} buttonText="Добавить" />
       </div>

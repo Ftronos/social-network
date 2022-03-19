@@ -5,7 +5,7 @@ import React from "react";
 import Button from "components/Kits/Buttons/Button/Button";
 
 const Posts = (props) => {
-  const postsElements = props.posts.map((item) => (
+  const postsElements = props.profilePage.myPosts.map((item) => (
     <Post msg={item.text} key={item.id} />
   ));
 
@@ -31,7 +31,7 @@ const Posts = (props) => {
         rows="10"
         className={k.input}
         onChange={onPostChange}
-        value={props.newPostText}
+        value={props.profilePage.newPostText}
       />
       <Button click={onAddPost} buttonText="Добавить" />
       {/* <button className={k.button} onClick={addPost}>

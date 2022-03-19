@@ -1,12 +1,15 @@
 import Nav from "components/template/Nav/Nav";
-import StoreContext from "storeContext";
+import { connect } from "react-redux";
 
-const NavContainer = () => {
-  return (
-    <StoreContext.Consumer>
-      {(store) => <Nav navItems={store.getState().sidebar.nav} />}
-    </StoreContext.Consumer>
-  );
+const mapStateToProps = (state) => {
+  return {
+    navItems: state.sidebar.nav,
+  };
 };
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+const NavContainer = connect(mapStateToProps, mapDispatchToProps)(Nav);
 
 export default NavContainer;

@@ -2,7 +2,7 @@ const ADD_MESSAGE = "ADD-MESSAGE";
 const UPDATE_NEW_MESSAGE_TEXT = "UPDATE-NEW-MESSAGE-TEXT";
 
 let initialState = {
-  newMessageText: "",
+  newMessageText: "Hi!",
   dialogs: [
     { id: 1, name: "User 1" },
     { id: 2, name: "User 2" },
@@ -12,11 +12,11 @@ let initialState = {
     { id: 6, name: "User 6" },
   ],
   messages: [
-    { id: 1, text: "111", position: "left" },
-    { id: 2, text: "222", position: "left" },
-    { id: 3, text: "333", position: "right" },
-    { id: 4, text: "444", position: "right" },
-    { id: 5, text: "555", position: "left" },
+    { id: 1, text: "Hello!", position: "left" },
+    { id: 2, text: "How are u?!", position: "left" },
+    { id: 3, text: "Hy!", position: "right" },
+    { id: 4, text: "I'm fine thnx :)", position: "right" },
+    { id: 5, text: ";)", position: "left" },
   ],
 };
 
@@ -29,17 +29,20 @@ const dialogsReducer = (state = initialState, action) => {
         return state;
       }
 
-      state.messages.push({
-        id: state.messages.length + 1,
-        text: state.newMessageText,
-      });
-
-      return state;
+      return {
+        ...state,
+        newMessageText: "",
+        messages: [
+          ...state.messages,
+          {
+            id: state.messages.length + 1,
+            text: state.newMessageText,
+          },
+        ],
+      };
 
     case UPDATE_NEW_MESSAGE_TEXT:
-      state.newMessageText = action.message;
-
-      return state;
+      return { ...state, newMessageText: action.message };
 
     default:
       return state;
