@@ -1,18 +1,31 @@
 import c from "./UsersList.module.css";
 import User from "./User/User";
+import Button from "components/Kits/Buttons/Button/Button";
 
-const UsersList = (state) => {
-  const usersElements = state.usersPage.users.map((item) => (
+const UsersList = (props) => {
+  const usersElements = props.users.map((item) => (
     <User
       user={item}
-      followedText={state.usersPage.followedText}
-      unfollowedText={state.usersPage.unfollowedText}
-      startFollowUser={state.startFollowUser}
+      followText={props.followText}
+      unfollowText={props.unfollowText}
+      followUser={props.followUser}
+      unfollowUser={props.unfollowUser}
       key={item.id}
     />
   ));
 
-  return <div>{usersElements}</div>;
+  // const showMoreUsers = () => {
+  //   setTimeout(() => {
+  //     props.showMoreUsers();
+  //   }, 1000);
+  // };
+
+  return (
+    <div>
+      {usersElements}
+      <Button buttonText={props.showMoreBtnText} />
+    </div>
+  );
 };
 
 export default UsersList;

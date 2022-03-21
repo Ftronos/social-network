@@ -2,8 +2,12 @@ import Button from "components/Kits/Buttons/Button/Button";
 import c from "./User.module.css";
 
 const User = (state) => {
-  const onStartFollow = () => {
-    state.startFollowUser(state.user.id);
+  const followUser = () => {
+    state.followUser(state.user.id);
+  };
+
+  const unfollowUser = () => {
+    state.unfollowUser(state.user.id);
   };
 
   return (
@@ -16,9 +20,9 @@ const User = (state) => {
       <Button
         classname={c.user__button}
         buttonText={
-          state.user.isFollowed ? state.followedText : state.unfollowedText
+          state.user.isFollowed ? state.unfollowText : state.followText
         }
-        click={onStartFollow}
+        click={state.user.isFollowed ? unfollowUser : followUser}
       />
       <div className={c.user__info}>
         <div>{state.user.fullname}</div>

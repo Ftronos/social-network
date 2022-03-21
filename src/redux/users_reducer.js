@@ -1,47 +1,17 @@
-const START_USER_FOLLOW = "START-USER-FOLLOW";
+const FOLLOW_USER = "FOLLOW_USER";
+const UNFOLLOW_USER = "UNFOLLOW_USER";
+const SET_USERS = "SET-USERS";
 
 let initialState = {
-  users: [
-    {
-      id: 1,
-      fullname: "Teo",
-      location: "Moscow, Russia",
-      status: "Hi, i'm there",
-      photoSrc: "https://www.icloudunlock.org/img/team/team3.png",
-      isFollowed: false,
-    },
-    {
-      id: 2,
-      fullname: "Migel",
-      location: "Orel, Russia",
-      status: "I love you!",
-      photoSrc: "https://www.icloudunlock.org/img/team/team3.png",
-      isFollowed: false,
-    },
-    {
-      id: 3,
-      fullname: "Chloe",
-      location: "Novosibirsk, Russia",
-      status: "Here we go",
-      photoSrc: "https://www.icloudunlock.org/img/team/team3.png",
-      isFollowed: false,
-    },
-    {
-      id: 4,
-      fullname: "Max",
-      location: "Minsk, Belarus",
-      status: "React is awesome oO",
-      photoSrc: "https://www.icloudunlock.org/img/team/team3.png",
-      isFollowed: false,
-    },
-  ],
-  followedText: "Following",
-  unfollowedText: "Follow",
+  users: [],
+  followText: "Follow",
+  unfollowText: "Unfollow",
+  showMoreBtnText: "Show more",
 };
 
 const usersReducer = (state = initialState, action) => {
   switch (action.type) {
-    case START_USER_FOLLOW: {
+    case FOLLOW_USER: {
       return {
         ...state,
         users: state.users.map((user) =>
@@ -49,16 +19,47 @@ const usersReducer = (state = initialState, action) => {
         ),
       };
     }
+
+    case UNFOLLOW_USER: {
+      return {
+        ...state,
+        users: state.users.map((user) =>
+          user.id === action.userId ? { ...user, isFollowed: false } : user
+        ),
+      };
+    }
+
+    case SET_USERS: {
+      return {
+        ...state,
+        users: [...state.users, ...action.users],
+      };
+    }
+
     default: {
       return state;
     }
   }
 };
 
-export const startUserFollowActionCreator = (id) => {
+export const followUserActionCreator = (id) => {
   return {
-    type: START_USER_FOLLOW,
+    type: FOLLOW_USER,
     userId: id,
+  };
+};
+
+export const unfollowUserActionCreator = (id) => {
+  return {
+    type: UNFOLLOW_USER,
+    userId: id,
+  };
+};
+
+export const setUsersActionCreator = (users) => {
+  return {
+    type: SET_USERS,
+    users,
   };
 };
 
