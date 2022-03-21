@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import UsersList from "./UsersList";
+import UsersList from "./UsersListC";
 import {
   followUserActionCreator,
   unfollowUserActionCreator,
