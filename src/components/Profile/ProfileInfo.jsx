@@ -6,8 +6,6 @@ const ProfileInfo = (props) => {
     return <Loader />;
   }
 
-  console.log(props.profile?.photos?.small);
-
   return (
     <div className={c.profile}>
       {/* <img src={props.profile.topImgSrc} alt="" className={c.topImage} /> */}

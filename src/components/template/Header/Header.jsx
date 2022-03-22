@@ -1,7 +1,8 @@
 import c from "./Header.module.css";
 import k from "Kits.module.css";
+import { NavLink } from "react-router-dom";
 
-const Header = () => {
+const Header = (props) => {
   return (
     <header className={c.header + " " + k.container}>
       <img
@@ -9,6 +10,9 @@ const Header = () => {
         alt="Logo"
         className={c.logo}
       />
+      <div>
+        {props.isAuth ? props.login : <NavLink to="/login">Login</NavLink>}
+      </div>
     </header>
   );
 };
