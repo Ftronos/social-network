@@ -1,12 +1,19 @@
 const FOLLOW_USER = "FOLLOW_USER";
 const UNFOLLOW_USER = "UNFOLLOW_USER";
 const SET_USERS = "SET-USERS";
+const SET_TOTAL_PAGES_COUNT = "SET-TOTAL-PAGES-COUNT";
+const SET_CURRENT_PAGE = "SET-CURRENT-PAGE";
+const TOGGLE_IS_FETCHING = "TOGGLE-IS-FETCHING";
 
 let initialState = {
   users: [],
   followText: "Follow",
   unfollowText: "Unfollow",
   showMoreBtnText: "Show more",
+  totalUsersCount: 0,
+  pageSize: 5,
+  currentPage: 1,
+  isFetching: true,
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -32,7 +39,28 @@ const usersReducer = (state = initialState, action) => {
     case SET_USERS: {
       return {
         ...state,
-        users: [...state.users, ...action.users],
+        users: [...action.users],
+      };
+    }
+
+    case SET_TOTAL_PAGES_COUNT: {
+      return {
+        ...state,
+        totalUsersCount: action.pageCount,
+      };
+    }
+
+    case SET_CURRENT_PAGE: {
+      return {
+        ...state,
+        currentPage: action.pageNumber,
+      };
+    }
+
+    case TOGGLE_IS_FETCHING: {
+      return {
+        ...state,
+        isFetching: action.isFetching,
       };
     }
 
@@ -42,24 +70,45 @@ const usersReducer = (state = initialState, action) => {
   }
 };
 
-export const followUserActionCreator = (id) => {
+export const followUserAC = (id) => {
   return {
     type: FOLLOW_USER,
     userId: id,
   };
 };
 
-export const unfollowUserActionCreator = (id) => {
+export const unfollowUserAC = (id) => {
   return {
     type: UNFOLLOW_USER,
     userId: id,
   };
 };
 
-export const setUsersActionCreator = (users) => {
+export const setUsersAC = (users) => {
   return {
     type: SET_USERS,
     users,
+  };
+};
+
+export const setTotalPagesAC = (pageCount) => {
+  return {
+    type: SET_TOTAL_PAGES_COUNT,
+    pageCount,
+  };
+};
+
+export const setCurrentPageAC = (pageNumber) => {
+  return {
+    type: SET_CURRENT_PAGE,
+    pageNumber,
+  };
+};
+
+export const toggleIsFetchingAC = (isFetching) => {
+  return {
+    type: TOGGLE_IS_FETCHING,
+    isFetching,
   };
 };
 

@@ -25,8 +25,8 @@ const User = (state) => {
       />
       <div className={c.user__info}>
         <div>{state.user.name}</div>
-        <div className={c.user__location}>{"state.user.location"}</div>
-        <div className={c.user__status}>{"state.user.status"}</div>
+        <div className={c.user__location}>{state.user.location || ""}</div>
+        <div className={c.user__status}>{state.user.status || ""}</div>
       </div>
     </div>
   );
