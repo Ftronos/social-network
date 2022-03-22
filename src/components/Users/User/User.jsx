@@ -1,6 +1,7 @@
 import Button from "components/Kits/Buttons/Button/Button";
 import c from "./User.module.css";
 import userAvatar from "assets/images/noavatar.png";
+import { NavLink } from "react-router-dom";
 
 const User = (state) => {
   const followUser = () => {
@@ -13,11 +14,13 @@ const User = (state) => {
 
   return (
     <div className={c.user}>
-      <img
-        className={c.user__photo}
-        src={state.user.photos.small ? state.user.photos.small : userAvatar}
-        alt={state.user.name}
-      />
+      <NavLink to={"/profile/?userId=" + state.user.id}>
+        <img
+          className={c.user__photo}
+          src={state.user.photos.small ? state.user.photos.small : userAvatar}
+          alt={state.user.name}
+        />
+      </NavLink>
       <Button
         classname={c.user__button}
         buttonText={state.user.followed ? state.unfollowText : state.followText}

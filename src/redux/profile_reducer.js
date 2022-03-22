@@ -1,5 +1,6 @@
 const ADD_POST = "ADD-POST";
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
+const SET_USER_PROFILE = "SET-USER-PROFILE";
 
 let initialState = {
   newPostText: "Hello!",
@@ -8,14 +9,7 @@ let initialState = {
     { id: 2, text: "How are you?" },
     { id: 3, text: "Thanks, fine!" },
   ],
-  user: {
-    avatarSrc: "https://www.icloudunlock.org/img/team/team3.png",
-    topImgSrc:
-      "https://sun9-54.userapi.com/c841533/v841533506/17243/KspzninTAnE.jpg",
-    name: "User 1",
-    dateBirth: "01.01.2000",
-    city: "г. Москва",
-  },
+  profile: null,
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -44,6 +38,10 @@ const profileReducer = (state = initialState, action) => {
       return { ...state, newPostText: action.postMessage };
     }
 
+    case SET_USER_PROFILE: {
+      return { ...state, profile: action.profile };
+    }
+
     default: {
       return state;
     }
@@ -60,6 +58,13 @@ export const updateNewPostTextActionCreator = (text) => {
   return {
     type: UPDATE_NEW_POST_TEXT,
     postMessage: text,
+  };
+};
+
+export const setUserProfile = (profile) => {
+  return {
+    type: SET_USER_PROFILE,
+    profile,
   };
 };
 

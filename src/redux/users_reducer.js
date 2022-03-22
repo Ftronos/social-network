@@ -11,7 +11,7 @@ let initialState = {
   unfollowText: "Unfollow",
   showMoreBtnText: "Show more",
   totalUsersCount: 0,
-  pageSize: 5,
+  pageSize: 25,
   currentPage: 1,
   isFetching: true,
 };
@@ -70,42 +70,42 @@ const usersReducer = (state = initialState, action) => {
   }
 };
 
-export const followUserAC = (id) => {
+export const followUser = (id) => {
   return {
     type: FOLLOW_USER,
     userId: id,
   };
 };
 
-export const unfollowUserAC = (id) => {
+export const unfollowUser = (id) => {
   return {
     type: UNFOLLOW_USER,
     userId: id,
   };
 };
 
-export const setUsersAC = (users) => {
+export const setUsers = (users) => {
   return {
     type: SET_USERS,
     users,
   };
 };
 
-export const setTotalPagesAC = (pageCount) => {
+export const setTotalPagesCount = (pageCount) => {
   return {
     type: SET_TOTAL_PAGES_COUNT,
     pageCount,
   };
 };
 
-export const setCurrentPageAC = (pageNumber) => {
+export const setCurrentPage = (pageNumber) => {
   return {
     type: SET_CURRENT_PAGE,
     pageNumber,
   };
 };
 
-export const toggleIsFetchingAC = (isFetching) => {
+export const toggleIsFetching = (isFetching) => {
   return {
     type: TOGGLE_IS_FETCHING,
     isFetching,

@@ -22,6 +22,7 @@ const UsersList = (props) => {
 
   return (
     <div>
+      {usersElements}
       <Pagination
         pages={pages}
         onPageChaned={(pageNumber) => {
@@ -29,8 +30,6 @@ const UsersList = (props) => {
         }}
         currentPage={props.currentPage}
       />
-
-      {usersElements}
       <Button buttonText={props.showMoreBtnText} />
     </div>
   );
