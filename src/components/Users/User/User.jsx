@@ -4,12 +4,12 @@ import userAvatar from "assets/images/noavatar.png";
 import { NavLink } from "react-router-dom";
 
 const User = (state) => {
-  const followUser = () => {
-    state.followUser(state.user.id);
+  const followUserSuccess = () => {
+    state.followUserSuccess(state.user.id);
   };
 
-  const unfollowUser = () => {
-    state.unfollowUser(state.user.id);
+  const unfollowUserSuccess = () => {
+    state.unfollowUserSuccess(state.user.id);
   };
 
   return (
@@ -22,9 +22,10 @@ const User = (state) => {
         />
       </NavLink>
       <Button
+        disabled={state.followingInProgress}
         classname={c.user__button}
         buttonText={state.user.followed ? state.unfollowText : state.followText}
-        click={state.user.followed ? unfollowUser : followUser}
+        click={state.user.followed ? unfollowUserSuccess : followUserSuccess}
       />
       <div className={c.user__info}>
         <div>{state.user.name}</div>

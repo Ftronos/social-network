@@ -9,16 +9,21 @@ const UsersList = (props) => {
     pages.push(i);
   }
 
-  const usersElements = props.users.map((item) => (
-    <User
-      user={item}
-      followText={props.followText}
-      unfollowText={props.unfollowText}
-      followUser={props.followUser}
-      unfollowUser={props.unfollowUser}
-      key={item.id}
-    />
-  ));
+  const usersElements = props.users.map((item) => {
+    const disabled = props.followingInProgress.some((id) => id === item.id);
+
+    return (
+      <User
+        user={item}
+        followText={props.followText}
+        unfollowText={props.unfollowText}
+        followUserSuccess={props.followUserSuccess}
+        unfollowUserSuccess={props.unfollowUserSuccess}
+        followingInProgress={disabled}
+        key={item.id}
+      />
+    );
+  });
 
   return (
     <div>
