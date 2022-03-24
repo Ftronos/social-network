@@ -10,6 +10,7 @@ import {
   getUsers,
 } from "./../../redux/users_reducer";
 import Loader from "components/Kits/Loader/Loader";
+import { Navigate } from "react-router-dom";
 
 class UsersListContainer extends React.Component {
   componentDidMount() {
@@ -30,6 +31,10 @@ class UsersListContainer extends React.Component {
   }
 
   render() {
+    if (!this.props.isAuth) {
+      return <Navigate to="/login" />;
+    }
+
     return (
       <>
         {this.props.isFetching ? <Loader /> : null}
@@ -62,6 +67,7 @@ const mapStateToProps = (state) => {
     showMoreBtnText: state.usersPage.showMoreBtnText,
     isFetching: state.usersPage.isFetching,
     followingInProgress: state.usersPage.followingInProgress,
+    isAuth: state.auth.isAuth,
   };
 };
 

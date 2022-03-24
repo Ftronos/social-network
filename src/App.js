@@ -7,8 +7,9 @@ import UsersListContainer from "components/Users/UsersListContainer";
 import Sidebar from "components/template/Sidebar/Sidebar";
 import ProfileContainer from "components/pages/Profile/ProfileContainer";
 import HeaderContainer from "./components/template/Header/HeaderContainer";
+import Login from "./components/pages/Login/Login";
 
-function App(props) {
+function App() {
   return (
     <BrowserRouter>
       <div className="app-wrapper">
@@ -19,6 +20,7 @@ function App(props) {
             <Route path="/profile/*" element={<ProfileContainer />} />
             <Route path="/dialogs/*" element={<DialogsContainer />} />
             <Route path="/users/" element={<UsersListContainer />} />
+            <Route path="/login/" element={<Login />} />
           </Routes>
         </div>
       </div>
