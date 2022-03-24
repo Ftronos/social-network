@@ -66,13 +66,13 @@ const mapStateToProps = (state) => {
   };
 };
 
-const AuthRedirectComponent = WithAuthRedirect(UsersListContainer);
-
-export default connect(mapStateToProps, {
-  followUserSuccess,
-  unfollowUserSuccess,
-  setCurrentPage,
-  getUsers,
-  followUser,
-  unfollowUser,
-})(AuthRedirectComponent);
+export default WithAuthRedirect(
+  connect(mapStateToProps, {
+    followUserSuccess,
+    unfollowUserSuccess,
+    setCurrentPage,
+    getUsers,
+    followUser,
+    unfollowUser,
+  })(UsersListContainer)
+);

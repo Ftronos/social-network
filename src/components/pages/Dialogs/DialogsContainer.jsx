@@ -23,11 +23,8 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const AuthRedirectComponent = WithAuthRedirect(Dialogs);
-
-const DialogsContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AuthRedirectComponent);
+const DialogsContainer = WithAuthRedirect(
+  connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+);
 
 export default DialogsContainer;

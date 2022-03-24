@@ -18,11 +18,11 @@ const ProfileContainer = (props) => {
   return <Profile {...props} profile={props.profile} />;
 };
 
-const AuthRedirectComponent = WithAuthRedirect(ProfileContainer);
-
 const mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
   myId: state.auth.userId,
 });
 
-export default connect(mapStateToProps, { getProfile })(AuthRedirectComponent);
+export default WithAuthRedirect(
+  connect(mapStateToProps, { getProfile })(ProfileContainer)
+);
