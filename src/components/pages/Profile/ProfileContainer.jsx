@@ -4,6 +4,7 @@ import { getProfile } from "redux/profile_reducer";
 import { connect } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import WithAuthRedirect from "components/HOC/WithAuthRedirect";
+import { compose } from "redux";
 
 const ProfileContainer = (props) => {
   const [searchParams] = useSearchParams();
@@ -23,6 +24,7 @@ const mapStateToProps = (state) => ({
   myId: state.auth.userId,
 });
 
-export default WithAuthRedirect(
-  connect(mapStateToProps, { getProfile })(ProfileContainer)
-);
+export default compose(
+  WithAuthRedirect,
+  connect(mapStateToProps, { getProfile })
+)(ProfileContainer);

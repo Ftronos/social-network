@@ -11,6 +11,7 @@ import {
 } from "./../../redux/users_reducer";
 import Loader from "components/Kits/Loader/Loader";
 import WithAuthRedirect from "./../HOC/WithAuthRedirect";
+import { compose } from "redux";
 
 class UsersListContainer extends React.Component {
   componentDidMount() {
@@ -66,7 +67,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default WithAuthRedirect(
+export default compose(
+  WithAuthRedirect,
   connect(mapStateToProps, {
     followUserSuccess,
     unfollowUserSuccess,
@@ -74,5 +76,5 @@ export default WithAuthRedirect(
     getUsers,
     followUser,
     unfollowUser,
-  })(UsersListContainer)
-);
+  })
+)(UsersListContainer);
