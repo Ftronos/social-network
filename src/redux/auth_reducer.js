@@ -38,4 +38,12 @@ export const getAuthUserData_tc = () => (dispatch) => {
   });
 };
 
+// export const login_tc = (email, password, rememberMe, captcha) => (dispatch) => {
+//   authAPI.login(email, password, rememberMe, captcha).then((data) => {
+//     if (data.resultCode === 0) {
+//       dispatch(setAuthUserData_ac(data.data.userId, email, login));
+//     }
+//   })
+// }
+
 export default authReducer;

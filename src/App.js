@@ -7,7 +7,7 @@ import UsersListContainer from "components/Users/UsersListContainer";
 import Sidebar from "components/template/Sidebar/Sidebar";
 import ProfileContainer from "components/pages/Profile/ProfileContainer";
 import HeaderContainer from "./components/template/Header/HeaderContainer";
-import Login from "./components/pages/Login/Login";
+import LoginPageContainer from "./components/pages/Login/LoginPageContainer";
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
             <Route path="/profile/*" element={<ProfileContainer />} />
             <Route path="/dialogs/*" element={<DialogsContainer />} />
             <Route path="/users/" element={<UsersListContainer />} />
-            <Route path="/login/" element={<Login />} />
+            <Route path="/login/" element={<LoginPageContainer />} />
           </Routes>
         </div>
       </div>
