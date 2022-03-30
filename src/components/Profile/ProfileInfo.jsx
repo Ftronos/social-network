@@ -15,7 +15,10 @@ const ProfileInfo = (props) => {
         alt={props.profile?.fullName || ""}
       />
       <div className={c.profile__details}>
-        <ProfileStatus status="Hello my friends" />
+        <ProfileStatus
+          status={props.status}
+          updateStatus={props.updateStatus}
+        />
         <h2 className={c.profile__name}>{props.profile?.fullName || ""}</h2>
         <p>{props.profile?.aboutMe || ""}</p>
       </div>
