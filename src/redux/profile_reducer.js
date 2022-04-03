@@ -1,12 +1,10 @@
 import { usersAPI, profileAPI } from "api/api";
 
 const ADD_POST = "ADD-POST";
-const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 const SET_USER_PROFILE = "SET-USER-PROFILE";
 const SET_STATUS = "SET-USER-STATUS";
 
 let initialState = {
-  newPostText: "Hello!",
   myPosts: [
     { id: 1, text: "Hello!" },
     { id: 2, text: "How are you?" },
@@ -19,27 +17,22 @@ let initialState = {
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_POST: {
-      if (!state.newPostText) {
+      if (!action.newPostText) {
         console.error("Empty post text");
 
-        return false;
+        return state;
       }
 
       return {
         ...state,
-        newPostText: "",
         myPosts: [
           ...state.myPosts,
           {
             id: state.myPosts.length + 1,
-            text: state.newPostText,
+            text: action.newPostText,
           },
         ],
       };
-    }
-
-    case UPDATE_NEW_POST_TEXT: {
-      return { ...state, newPostText: action.postMessage };
     }
 
     case SET_USER_PROFILE: {
@@ -56,13 +49,9 @@ const profileReducer = (state = initialState, action) => {
   }
 };
 
-export const addPost_ac = () => ({
+export const addPost_ac = (newPostText) => ({
   type: ADD_POST,
-});
-
-export const updateNewPostText = (text) => ({
-  type: UPDATE_NEW_POST_TEXT,
-  postMessage: text,
+  newPostText,
 });
 
 export const setUserProfile = (profile) => ({

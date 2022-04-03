@@ -3,40 +3,49 @@ import c from "./UserPosts.module.css";
 import k from "Kits.module.css";
 import React from "react";
 import Button from "components/Kits/Buttons/Button/Button";
+import { Field, reduxForm } from "redux-form";
+import { maxLengthCreator, requiredField } from "utils/validators/validators";
+import { Textarea } from "components/Kits/FormsControls/FormsControls";
+
+const maxLengthCreator30 = maxLengthCreator(30);
+
+let AddPostForm = (props) => {
+  return (
+    <form onSubmit={props.handleSubmit}>
+      <Field
+        component={Textarea}
+        cols="30"
+        rows="10"
+        name="postText"
+        className={k.input}
+        defaultValue={props.postText}
+        placeholder="Post message"
+        validate={[requiredField, maxLengthCreator30]}
+      />
+      <Button buttonText="Добавить" />
+    </form>
+  );
+};
+
+AddPostForm = reduxForm({
+  form: "addPostForm",
+})(AddPostForm);
 
 const Posts = (props) => {
   const postsElements = props.profilePage.myPosts.map((item) => (
     <Post msg={item.text} key={item.id} />
   ));
 
-  const textarea = React.createRef();
-
-  const onAddPost = () => {
-    props.addPost();
-  };
-
-  const onPostChange = () => {
-    let text = textarea.current.value;
-
-    props.updateNewPostText(text);
+  const addPost = (formData) => {
+    props.addPost(formData.postText);
   };
 
   return (
     <div>
-      <textarea
-        ref={textarea}
-        name=""
-        id=""
-        cols="30"
-        rows="10"
-        className={k.input}
-        onChange={onPostChange}
-        value={props.profilePage.newPostText}
+      <AddPostForm
+        onSubmit={addPost}
+        postText={props.profilePage.newPostText}
       />
-      <Button click={onAddPost} buttonText="Добавить" />
-      {/* <button className={k.button} onClick={addPost}>
-        Добавить
-      </button> */}
       <div className={c.posts}>{postsElements}</div>
     </div>
   );

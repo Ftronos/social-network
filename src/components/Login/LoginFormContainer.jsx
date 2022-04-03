@@ -1,8 +1,5 @@
 import LoginForm from "./LoginForm";
-import { reduxForm } from "redux-form";
 import { authAPI } from "api/api";
-
-const LoginReduxForm = reduxForm({ form: "login" })(LoginForm);
 
 const LoginFormContainer = (props) => {
   const onSubmit = (formData) => {
@@ -18,7 +15,7 @@ const LoginFormContainer = (props) => {
 
   return (
     <div>
-      <LoginReduxForm {...props} onSubmit={onSubmit} />
+      <LoginForm {...props} onSubmit={onSubmit} />
     </div>
   );
 };
