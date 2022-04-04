@@ -1,14 +1,14 @@
-import { authAPI } from "api/api";
+import { authAPI, usersAPI } from "api/api";
 
 const SET_USER_DATA = "SET-USER-DATA";
-const SET_USER_AUTH = "SET-USER-AUTH";
-const SET_USER_ID = "SET-USER-ID";
+const SET_CAPTCHA_URL = "SET-CAPTCHA-URL";
 
 const initialState = {
   userId: null,
   email: null,
   login: null,
   isAuth: null,
+  captchaUrl: "",
   //isFetching: false,
 };
 
@@ -17,20 +17,13 @@ const authReducer = (state = initialState, action) => {
     case SET_USER_DATA:
       return {
         ...state,
-        ...action.data,
+        ...action.payload,
       };
 
-    case SET_USER_AUTH: {
+    case SET_CAPTCHA_URL: {
       return {
         ...state,
-        isAuth: action.isAuth,
-      };
-    }
-
-    case SET_USER_ID: {
-      return {
-        ...state,
-        userId: action.userId,
+        captchaUrl: action.captchaUrl,
       };
     }
 
@@ -39,29 +32,36 @@ const authReducer = (state = initialState, action) => {
   }
 };
 
-export const setAuthUserData_ac = (userId, email, login) => ({
+export const setAuthUserData_ac = (userId, email, login, isAuth) => ({
   type: SET_USER_DATA,
-  data: { userId, email, login },
+  payload: { userId, email, login, isAuth },
 });
 
-export const setAuthAuth_ac = (isAuth) => ({
-  type: SET_USER_AUTH,
-  isAuth,
+export const setCaptchaUrl_ac = (captchaUrl) => ({
+  type: SET_CAPTCHA_URL,
+  captchaUrl,
 });
 
-export const setAuthUserId_ac = (userId) => ({
-  type: SET_USER_ID,
-  userId,
-});
+export const loginUser_tc =
+  (email, password, rememberMe, captcha) => (dispatch) => {
+    authAPI.login(email, password, rememberMe, captcha).then((data) => {
+      if (data.resultCode === 10) {
+        authAPI.getCaptchaUrl().then((data) => {
+          dispatch(setCaptchaUrl_ac(data.url));
+        });
+      } else if (data.resultCode !== 0) {
+        dispatch(setAuthUserData_ac(null, null, null, false));
+        data.messages.forEach((msg) => alert(msg));
+      } else {
+        dispatch(getAuthUserData_tc());
+      }
+    });
+  };
 
-export const authUser_tc = (email, password, rememberMe) => (dispatch) => {
-  authAPI.login(email, password, rememberMe).then((data) => {
-    if (data.resultCode !== 0) {
-      dispatch(setAuthAuth_ac(false));
-      data.messages.forEach((msg) => alert(msg));
-    } else {
-      dispatch(setAuthAuth_ac(true));
-      dispatch(setAuthUserId_ac(data.data.userId));
+export const logoutUser_tc = () => (dispatch) => {
+  authAPI.logout().then((data) => {
+    if (data.resultCode === 0) {
+      dispatch(setAuthUserData_ac(null, null, null, false));
     }
   });
 };
@@ -70,10 +70,9 @@ export const getAuthUserData_tc = () => (dispatch) => {
   authAPI.me().then((data) => {
     if (data.resultCode === 0) {
       let { id, email, login } = data.data;
-      dispatch(setAuthUserData_ac(id, email, login));
-      dispatch(setAuthAuth_ac(true));
+      dispatch(setAuthUserData_ac(id, email, login, true));
     } else {
-      dispatch(setAuthAuth_ac(false));
+      dispatch(setAuthUserData_ac(null, null, null, false));
     }
   });
 };

@@ -26,6 +26,19 @@ let LoginForm = (props) => {
         <Field component={"input"} name="rememberMe" type="checkbox" />{" "}
         Запомнить меня
       </div>
+      {props.captchaUrl === "" ? (
+        ""
+      ) : (
+        <div>
+          <img src={props.captchaUrl} alt="" />
+          <Field
+            placeholder="Введите капчу"
+            name="captcha"
+            component={Input}
+            validate={[requiredField]}
+          />
+        </div>
+      )}
       <div>
         <Button buttonText="Войти" />
       </div>

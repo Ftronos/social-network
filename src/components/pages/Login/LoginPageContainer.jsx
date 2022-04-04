@@ -7,7 +7,7 @@ const LoginContainer = (props) => {
     return <LoginPage />;
   }
 
-  return <Navigate to="/" />;
+  return <Navigate to="/profile" />;
 };
 
 const mapStateToProps = (state) => ({

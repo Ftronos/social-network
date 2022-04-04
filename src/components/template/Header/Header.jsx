@@ -1,6 +1,7 @@
 import c from "./Header.module.css";
 import k from "Kits.module.css";
 import { NavLink } from "react-router-dom";
+import Button from "components/Kits/Buttons/Button/Button";
 
 const Header = (props) => {
   return (
@@ -11,7 +12,13 @@ const Header = (props) => {
         className={c.logo}
       />
       <div>
-        {props.isAuth ? props.login : <NavLink to="/login">Login</NavLink>}
+        {props.isAuth ? (
+          <div>
+            {props.login} - <Button buttonText="Выйти" click={props.logout} />
+          </div>
+        ) : (
+          <NavLink to="/login">Login</NavLink>
+        )}
       </div>
     </header>
   );

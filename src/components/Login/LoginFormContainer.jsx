@@ -1,13 +1,12 @@
 import LoginForm from "./LoginForm";
-import { authAPI } from "api/api";
 import { connect } from "react-redux";
-import { authUser_tc } from "redux/auth_reducer";
+import { loginUser_tc } from "redux/auth_reducer";
 
 const LoginFormContainer = (props) => {
   const onSubmit = (formData) => {
-    let { email, password, rememberMe } = formData;
+    let { email, password, rememberMe, captcha } = formData;
 
-    props.authUser(email, password, rememberMe);
+    props.loginUser(email, password, rememberMe, captcha);
   };
 
   return (
@@ -17,8 +16,10 @@ const LoginFormContainer = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  captchaUrl: state.auth.captchaUrl,
+});
 
-export default connect(mapStateToProps, { authUser: authUser_tc })(
+export default connect(mapStateToProps, { loginUser: loginUser_tc })(
   LoginFormContainer
 );
