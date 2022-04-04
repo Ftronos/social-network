@@ -13,6 +13,7 @@ const ProfileContainer = (props) => {
     : props.myId;
 
   if (!props.profile || +props.profile?.userId !== +userId) {
+    console.log(props.profile);
     props.getProfile(userId);
     props.getStatus(userId);
   }

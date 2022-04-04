@@ -2,6 +2,7 @@ import { authAPI } from "api/api";
 
 const SET_USER_DATA = "SET-USER-DATA";
 const SET_USER_AUTH = "SET-USER-AUTH";
+const SET_USER_ID = "SET-USER-ID";
 
 const initialState = {
   userId: null,
@@ -26,6 +27,13 @@ const authReducer = (state = initialState, action) => {
       };
     }
 
+    case SET_USER_ID: {
+      return {
+        ...state,
+        userId: action.userId,
+      };
+    }
+
     default:
       return state;
   }
@@ -40,6 +48,23 @@ export const setAuthAuth_ac = (isAuth) => ({
   type: SET_USER_AUTH,
   isAuth,
 });
+
+export const setAuthUserId_ac = (userId) => ({
+  type: SET_USER_ID,
+  userId,
+});
+
+export const authUser_tc = (email, password, rememberMe) => (dispatch) => {
+  authAPI.login(email, password, rememberMe).then((data) => {
+    if (data.resultCode !== 0) {
+      dispatch(setAuthAuth_ac(false));
+      data.messages.forEach((msg) => alert(msg));
+    } else {
+      dispatch(setAuthAuth_ac(true));
+      dispatch(setAuthUserId_ac(data.data.userId));
+    }
+  });
+};
 
 export const getAuthUserData_tc = () => (dispatch) => {
   authAPI.me().then((data) => {
