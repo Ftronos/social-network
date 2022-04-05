@@ -2,6 +2,7 @@ import Button from "components/Kits/Buttons/Button/Button";
 import { Input } from "components/Kits/FormsControls/FormsControls";
 import { Field, reduxForm } from "redux-form";
 import { requiredField } from "utils/validators/validators";
+import c from "components/Kits/FormsControls/FormControls.module.css";
 
 let LoginForm = (props) => {
   return (
@@ -26,9 +27,7 @@ let LoginForm = (props) => {
         <Field component={"input"} name="rememberMe" type="checkbox" />{" "}
         Запомнить меня
       </div>
-      {props.captchaUrl === "" ? (
-        ""
-      ) : (
+      {props.captchaUrl && (
         <div>
           <img src={props.captchaUrl} alt="" />
           <Field
@@ -39,6 +38,7 @@ let LoginForm = (props) => {
           />
         </div>
       )}
+      {props.error && <div className={c.form_summary_error}>{props.error}</div>}
       <div>
         <Button buttonText="Войти" />
       </div>

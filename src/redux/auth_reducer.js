@@ -1,4 +1,5 @@
 import { authAPI, usersAPI } from "api/api";
+import { stopSubmit } from "redux-form";
 
 const SET_USER_DATA = "SET-USER-DATA";
 const SET_CAPTCHA_URL = "SET-CAPTCHA-URL";
@@ -45,13 +46,18 @@ export const setCaptchaUrl_ac = (captchaUrl) => ({
 export const loginUser_tc =
   (email, password, rememberMe, captcha) => (dispatch) => {
     authAPI.login(email, password, rememberMe, captcha).then((data) => {
-      if (data.resultCode === 10) {
-        authAPI.getCaptchaUrl().then((data) => {
-          dispatch(setCaptchaUrl_ac(data.url));
-        });
-      } else if (data.resultCode !== 0) {
+      if (data.resultCode !== 0) {
         dispatch(setAuthUserData_ac(null, null, null, false));
-        data.messages.forEach((msg) => alert(msg));
+        let errorMessage =
+          data.messages.length > 0 ? data.messages[0] : "Some error";
+
+        dispatch(stopSubmit("loginForm", { _error: errorMessage }));
+
+        if (data.resultCode === 10) {
+          authAPI.getCaptchaUrl().then((data) => {
+            dispatch(setCaptchaUrl_ac(data.url));
+          });
+        }
       } else {
         dispatch(getAuthUserData_tc());
       }
