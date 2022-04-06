@@ -1,4 +1,4 @@
-import { authAPI, usersAPI } from "api/api";
+import { authAPI } from "api/api";
 import { stopSubmit } from "redux-form";
 
 const SET_USER_DATA = "SET-USER-DATA";
@@ -8,7 +8,7 @@ const initialState = {
   userId: null,
   email: null,
   login: null,
-  isAuth: null,
+  isAuth: false,
   captchaUrl: "",
   //isFetching: false,
 };
@@ -73,7 +73,7 @@ export const logoutUser_tc = () => (dispatch) => {
 };
 
 export const getAuthUserData_tc = () => (dispatch) => {
-  authAPI.me().then((data) => {
+  return authAPI.me().then((data) => {
     if (data.resultCode === 0) {
       let { id, email, login } = data.data;
       dispatch(setAuthUserData_ac(id, email, login, true));

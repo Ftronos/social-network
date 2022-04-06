@@ -1,17 +1,15 @@
-import { connect } from "react-redux";
-import UsersList from "./UsersList";
-import React from "react";
-import {
-  followUserSuccess,
-  unfollowUserSuccess,
-  setCurrentPage,
-  followUser,
-  unfollowUser,
-  getUsers,
-} from "./../../redux/users_reducer";
 import Loader from "components/Kits/Loader/Loader";
-import WithAuthRedirect from "./../HOC/WithAuthRedirect";
-import { compose } from "redux";
+import React from "react";
+import { connect } from "react-redux";
+import {
+  followUser,
+  followUserSuccess,
+  getUsers,
+  setCurrentPage,
+  unfollowUser,
+  unfollowUserSuccess,
+} from "./../../redux/users_reducer";
+import UsersList from "./UsersList";
 
 class UsersListContainer extends React.Component {
   componentDidMount() {
@@ -67,14 +65,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default compose(
-  WithAuthRedirect,
-  connect(mapStateToProps, {
-    followUserSuccess,
-    unfollowUserSuccess,
-    setCurrentPage,
-    getUsers,
-    followUser,
-    unfollowUser,
-  })
-)(UsersListContainer);
+export default connect(mapStateToProps, {
+  followUserSuccess,
+  unfollowUserSuccess,
+  setCurrentPage,
+  getUsers,
+  followUser,
+  unfollowUser,
+})(UsersListContainer);

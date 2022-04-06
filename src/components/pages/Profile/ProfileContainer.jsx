@@ -1,16 +1,18 @@
 import React from "react";
-import Profile from "./Profile";
-import { getProfile, getStatus, updateStatus } from "redux/profile_reducer";
 import { connect } from "react-redux";
-import { useSearchParams } from "react-router-dom";
-import WithAuthRedirect from "components/HOC/WithAuthRedirect";
-import { compose } from "redux";
+import { Navigate, useSearchParams } from "react-router-dom";
+import { getProfile, getStatus, updateStatus } from "redux/profile_reducer";
+import Profile from "./Profile";
 
 const ProfileContainer = (props) => {
   const [searchParams] = useSearchParams();
   const userId = searchParams.get("userId")
     ? searchParams.get("userId")
     : props.myId;
+
+  if (!userId) {
+    return <Navigate to="/login" />;
+  }
 
   if (!props.profile || +props.profile?.userId !== +userId) {
     props.getProfile(userId);
@@ -33,7 +35,8 @@ const mapStateToProps = (state) => ({
   status: state.profilePage.status,
 });
 
-export default compose(
-  WithAuthRedirect,
-  connect(mapStateToProps, { getProfile, getStatus, updateStatus })
-)(ProfileContainer);
+export default connect(mapStateToProps, {
+  getProfile,
+  getStatus,
+  updateStatus,
+})(ProfileContainer);
