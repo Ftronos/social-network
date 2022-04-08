@@ -2,6 +2,18 @@ import Loader from "components/Kits/Loader/Loader";
 import React from "react";
 import { connect } from "react-redux";
 import {
+  getPageUsers,
+  gePageSize,
+  getTotalUsersCount,
+  getCurrentPage,
+  getFollowText,
+  getUnfollowText,
+  getShowMoreBtnText,
+  getIsFetching,
+  getFollowingInProgress,
+} from "redux/selectors/users-selectors";
+
+import {
   followUser,
   followUserSuccess,
   getUsers,
@@ -53,15 +65,15 @@ class UsersListContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    users: state.usersPage.users,
-    pageSize: state.usersPage.pageSize,
-    totalUsersCount: state.usersPage.totalUsersCount,
-    currentPage: state.usersPage.currentPage,
-    followText: state.usersPage.followText,
-    unfollowText: state.usersPage.unfollowText,
-    showMoreBtnText: state.usersPage.showMoreBtnText,
-    isFetching: state.usersPage.isFetching,
-    followingInProgress: state.usersPage.followingInProgress,
+    users: getPageUsers(state),
+    pageSize: gePageSize(state),
+    totalUsersCount: getTotalUsersCount(state),
+    currentPage: getCurrentPage(state),
+    followText: getFollowText(state),
+    unfollowText: getUnfollowText(state),
+    showMoreBtnText: getShowMoreBtnText(state),
+    isFetching: getIsFetching(state),
+    followingInProgress: getFollowingInProgress(state),
   };
 };
 
