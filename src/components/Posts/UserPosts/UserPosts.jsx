@@ -31,8 +31,8 @@ AddPostForm = reduxForm({
   form: "addPostForm",
 })(AddPostForm);
 
-const Posts = (props) => {
-  const postsElements = props.profilePage.myPosts.map((item) => (
+const Posts = React.memo((props) => {
+  const postsElements = props.userPosts.map((item) => (
     <Post msg={item.text} key={item.id} />
   ));
 
@@ -42,13 +42,10 @@ const Posts = (props) => {
 
   return (
     <div>
-      <AddPostForm
-        onSubmit={addPost}
-        postText={props.profilePage.newPostText}
-      />
+      <AddPostForm onSubmit={addPost} postText={props.newPostText} />
       <div className={c.posts}>{postsElements}</div>
     </div>
   );
-};
+});
 
 export default Posts;
