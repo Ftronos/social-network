@@ -22,10 +22,9 @@ export const initializedSuccess_ac = () => ({
   type: INITIALIZED_SUCCESS,
 });
 
-export const initializeApp_tc = () => (dispatch) => {
-  dispatch(getAuthUserData_tc()).then(() => {
-    dispatch(initializedSuccess_ac());
-  });
+export const initializeApp_tc = () => async (dispatch) => {
+  await dispatch(getAuthUserData_tc());
+  dispatch(initializedSuccess_ac());
 };
 
 export default appReducer;

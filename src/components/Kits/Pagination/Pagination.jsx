@@ -1,6 +1,6 @@
 import c from "./Pagination.module.css";
 
-const Pagination = (props) => {
+const Pagination = ({ currentPage, ...props }) => {
   const onPageChaned = (pageNumber) => {
     props.onPageChaned(pageNumber);
   };
@@ -11,8 +11,8 @@ const Pagination = (props) => {
     showSideRight = true;
 
   if (props.pages.length > visibleItemsCount) {
-    let startIdx = props.currentPage - Math.ceil(visibleItemsCount / 2),
-      endIdx = props.currentPage + Math.floor(visibleItemsCount / 2);
+    let startIdx = currentPage - Math.ceil(visibleItemsCount / 2),
+      endIdx = currentPage + Math.floor(visibleItemsCount / 2);
 
     if (startIdx < 0) {
       endIdx = visibleItemsCount;
@@ -36,7 +36,7 @@ const Pagination = (props) => {
   const paginationElements = pages.map((page) => {
     const className =
       c.pagination__item +
-      (props.currentPage === page ? " " + c.pagination__item_active : "");
+      (currentPage === page ? " " + c.pagination__item_active : "");
 
     return (
       <span
