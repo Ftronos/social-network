@@ -1,7 +1,12 @@
 import MyPostsContainer from "components/Posts/UserPosts/UserPostsContainer";
 import ProfileInfo from "components/Profile/ProfileInfo";
+import Loader from "./../../Kits/Loader/Loader";
 
 const Profile = (props) => {
+  if (!props.profile) {
+    return <Loader />;
+  }
+
   return (
     <div>
       <ProfileInfo
@@ -10,6 +15,7 @@ const Profile = (props) => {
         status={props.status}
         updateMainPhoto={props.updateMainPhoto}
         updateStatus={props.updateStatus}
+        saveProfile={props.saveProfile}
       />
       <MyPostsContainer />
     </div>

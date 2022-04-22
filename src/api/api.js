@@ -53,6 +53,10 @@ export const profileAPI = {
       .put(`/profile/photo/`, formData)
       .then((response) => response.data);
   },
+
+  updateUserProfile(profile) {
+    return instance.put(`/profile/`, profile).then((response) => response.data);
+  },
 };
 
 export const authAPI = {

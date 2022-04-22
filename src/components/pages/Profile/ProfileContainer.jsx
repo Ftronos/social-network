@@ -6,6 +6,7 @@ import {
   getStatus,
   updateStatus,
   updateMainPhoto,
+  saveProfile,
 } from "redux/profile_reducer";
 import Profile from "./Profile";
 
@@ -16,6 +17,7 @@ const ProfileContainer = ({
   getProfile,
   getStatus,
   updateStatus,
+  saveProfile,
   ...props
 }) => {
   const [searchParams] = useSearchParams();
@@ -37,6 +39,7 @@ const ProfileContainer = ({
       profile={profile}
       status={status || "Расскажите о себе"}
       updateStatus={updateStatus}
+      saveProfile={saveProfile}
     />
   );
 };
@@ -52,4 +55,5 @@ export default connect(mapStateToProps, {
   getStatus,
   updateStatus,
   updateMainPhoto,
+  saveProfile,
 })(ProfileContainer);

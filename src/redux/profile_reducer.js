@@ -1,4 +1,6 @@
 import { usersAPI, profileAPI } from "api/api";
+import { stopSubmit } from "redux-form";
+import { toLowerCaseFirstLetter } from "./../utils/heplers/helpers";
 
 const ADD_POST = "ADD-POST";
 const DELETE_POST = "DELETE-POST";
@@ -112,6 +114,36 @@ export const updateMainPhoto = (photo) => async (dispatch) => {
 
   if (data.resultCode === 0) {
     dispatch(setUserPhoto_ac(data.data.photos));
+  }
+};
+
+export const saveProfile = (profile) => async (dispatch, getState) => {
+  const userId = getState().auth.userId;
+
+  let data = await profileAPI.updateUserProfile(profile);
+
+  if (data.resultCode === 0) {
+    dispatch(getProfile(userId));
+  } else {
+    let errorMessage =
+      data.messages.length > 0 ? data.messages[0] : "Some error";
+
+    let errorField = errorMessage.match(/\(.*\)/g)[0].slice(1, -1);
+    const errorObject = {};
+
+    if (errorField.split("->")[1]) {
+      errorField = toLowerCaseFirstLetter(errorField.split("->")[1]);
+
+      errorObject["contacts"] = {};
+      errorObject["contacts"][errorField] = errorMessage;
+    } else {
+      errorField = toLowerCaseFirstLetter(errorField.split("->")[0]);
+
+      errorObject[errorField] = errorMessage;
+    }
+
+    dispatch(stopSubmit("editProfileForm", errorObject));
+    return Promise.reject(errorMessage);
   }
 };
 
