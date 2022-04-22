@@ -12,6 +12,7 @@ import { Component } from "react";
 import { connect } from "react-redux";
 import { initializeApp_tc } from "./redux/app_reducer";
 import Loader from "components/Kits/Loader/Loader";
+import React from "react";
 
 class App extends Component {
   componentDidMount() {
@@ -29,12 +30,14 @@ class App extends Component {
           <HeaderContainer />
           <Sidebar />
           <div className={`${k.container} content`}>
-            <Routes>
-              <Route path="/profile/*" element={<ProfileContainer />} />
-              <Route path="/dialogs/*" element={<DialogsContainer />} />
-              <Route path="/users/" element={<UsersListContainer />} />
-              <Route path="/login/" element={<LoginPageContainer />} />
-            </Routes>
+            <React.Suspense fallback={<Loader />}>
+              <Routes>
+                <Route path="/profile/*" element={<ProfileContainer />} />
+                <Route path="/dialogs/*" element={<DialogsContainer />} />
+                <Route path="/users/" element={<UsersListContainer />} />
+                <Route path="/login/" element={<LoginPageContainer />} />
+              </Routes>
+            </React.Suspense>
           </div>
         </div>
       </BrowserRouter>

@@ -5,7 +5,7 @@ import usersReducer from "./users_reducer";
 import authReducer from "./auth_reducer";
 import thunkMiddleware from "redux-thunk";
 import { reducer as formReducer } from "redux-form";
-import { createStore, combineReducers, applyMiddleware } from "redux";
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import appReducer from "./app_reducer";
 
 let reducers = combineReducers({
@@ -18,8 +18,13 @@ let reducers = combineReducers({
   form: formReducer,
 });
 
-let store = createStore(reducers, applyMiddleware(thunkMiddleware));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-window.store = store;
+let store = createStore(
+  reducers,
+  composeEnhancers(applyMiddleware(thunkMiddleware))
+);
+
+window.__store__ = store;
 
 export default store;

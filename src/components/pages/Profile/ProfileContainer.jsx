@@ -1,30 +1,42 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Navigate, useSearchParams } from "react-router-dom";
-import { getProfile, getStatus, updateStatus } from "redux/profile_reducer";
+import {
+  getProfile,
+  getStatus,
+  updateStatus,
+  updateMainPhoto,
+} from "redux/profile_reducer";
 import Profile from "./Profile";
 
-const ProfileContainer = (props) => {
+const ProfileContainer = ({
+  myId,
+  profile,
+  status,
+  getProfile,
+  getStatus,
+  updateStatus,
+  ...props
+}) => {
   const [searchParams] = useSearchParams();
-  const userId = searchParams.get("userId")
-    ? searchParams.get("userId")
-    : props.myId;
+  const userId = searchParams.get("userId") ? searchParams.get("userId") : myId;
 
   if (!userId) {
     return <Navigate to="/login" />;
   }
 
-  if (!props.profile || +props.profile?.userId !== +userId) {
-    props.getProfile(userId);
-    props.getStatus(userId);
+  if (!profile || +profile?.userId !== +userId) {
+    getProfile(userId);
+    getStatus(userId);
   }
 
   return (
     <Profile
       {...props}
-      profile={props.profile}
-      status={props.status || "Расскажите о себе"}
-      updateStatus={props.updateStatus}
+      isOwner={!searchParams.get("userId")}
+      profile={profile}
+      status={status || "Расскажите о себе"}
+      updateStatus={updateStatus}
     />
   );
 };
@@ -39,4 +51,5 @@ export default connect(mapStateToProps, {
   getProfile,
   getStatus,
   updateStatus,
+  updateMainPhoto,
 })(ProfileContainer);

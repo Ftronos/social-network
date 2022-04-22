@@ -47,6 +47,12 @@ export const profileAPI = {
       .put(`/profile/status/`, { status })
       .then((response) => response.data);
   },
+
+  updateUserPhoto(formData) {
+    return instance
+      .put(`/profile/photo/`, formData)
+      .then((response) => response.data);
+  },
 };
 
 export const authAPI = {
