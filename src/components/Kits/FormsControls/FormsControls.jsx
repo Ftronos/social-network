@@ -1,10 +1,15 @@
 import c from "./FormControls.module.css";
+import cn from "classnames";
 
 const FormControl = ({ input, meta, child, ...props }) => {
   const isError = meta.touched && meta.error;
 
   return (
-    <div className={c.formControl + " " + (isError ? c.error : "")}>
+    <div
+      className={cn(c.formControl, {
+        [c.error]: isError,
+      })}
+    >
       {props.children}
       {isError && <span>{meta.error}</span>}
     </div>

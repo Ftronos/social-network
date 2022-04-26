@@ -7,6 +7,7 @@ import Button from "components/Kits/Buttons/Button/Button";
 import { Field, reduxForm } from "redux-form";
 import { requiredField, maxLengthCreator } from "utils/validators/validators";
 import { Textarea } from "components/Kits/FormsControls/FormsControls";
+import cn from "classnames";
 
 const maxLength50 = maxLengthCreator(50);
 
@@ -44,13 +45,11 @@ const Dialogs = (props) => {
 
   return (
     <div className={c.dialogs}>
-      <div className={c.dialogs__messages + " " + k.container}>
+      <div className={cn(c.dialogs__messages, k.container)}>
         {messagesElements}
         <AddDialogMessageForm onSubmit={addMessage} />
       </div>
-      <div className={c.dialogs__list + " " + k.container}>
-        {dialogsElements}
-      </div>
+      <div className={cn(c.dialogs__list, k.container)}>{dialogsElements}</div>
     </div>
   );
 };

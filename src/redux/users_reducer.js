@@ -1,4 +1,5 @@
 import { usersAPI } from "api/api";
+import { setGlobalError_tc } from "./app_reducer";
 
 const FOLLOW_USER = "FOLLOW_USER";
 const UNFOLLOW_USER = "UNFOLLOW_USER";
@@ -121,32 +122,44 @@ export const toggleFollowingProgress = (userId) => ({
 export const getUsers = (currentPage, pageSize) => async (dispatch) => {
   dispatch(toggleIsFetching(true));
 
-  let data = await usersAPI.getUsers(currentPage, pageSize);
+  try {
+    let data = await usersAPI.getUsers(currentPage, pageSize);
 
-  dispatch(toggleIsFetching(false));
-  dispatch(setUsers(data.items));
-  dispatch(setTotalPagesCount(data.totalCount));
+    dispatch(toggleIsFetching(false));
+    dispatch(setUsers(data.items));
+    dispatch(setTotalPagesCount(data.totalCount));
+  } catch (error) {
+    dispatch(setGlobalError_tc(error.message));
+  }
 };
 
 export const followUser = (userId) => async (dispatch) => {
   dispatch(toggleFollowingProgress(userId));
 
-  let data = await usersAPI.followUserSuccess(userId);
+  try {
+    let data = await usersAPI.followUserSuccess(userId);
 
-  dispatch(toggleFollowingProgress(userId));
-  if (data.resultCode === 0) {
-    dispatch(followUserSuccess(userId));
+    dispatch(toggleFollowingProgress(userId));
+    if (data.resultCode === 0) {
+      dispatch(followUserSuccess(userId));
+    }
+  } catch (error) {
+    dispatch(setGlobalError_tc(error.message));
   }
 };
 
 export const unfollowUser = (userId) => async (dispatch) => {
   dispatch(toggleFollowingProgress(userId));
 
-  let data = await usersAPI.unfollowUserSuccess(userId);
+  try {
+    let data = await usersAPI.unfollowUserSuccess(userId);
 
-  dispatch(toggleFollowingProgress(userId));
-  if (data.resultCode === 0) {
-    dispatch(unfollowUserSuccess(userId));
+    dispatch(toggleFollowingProgress(userId));
+    if (data.resultCode === 0) {
+      dispatch(unfollowUserSuccess(userId));
+    }
+  } catch (error) {
+    dispatch(setGlobalError_tc(error.message));
   }
 };
 

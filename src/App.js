@@ -10,18 +10,38 @@ import HeaderContainer from "./components/template/Header/HeaderContainer";
 import LoginPageContainer from "./components/pages/Login/LoginPageContainer";
 import { Component } from "react";
 import { connect } from "react-redux";
-import { initializeApp_tc } from "./redux/app_reducer";
+import { initializeApp_tc, setGlobalError_tc } from "./redux/app_reducer";
 import Loader from "components/Kits/Loader/Loader";
 import React from "react";
+import ModalErrorContainer from "components/Kits/Modals/ModalErrorContainer";
 
 class App extends Component {
+  catchAllUnhandledErrors = (err) => {
+    //console.error(err.reason.message);
+    this.props.setGlobalError_tc(err.reason.message);
+  };
+
   componentDidMount() {
     this.props.initializeApp_tc();
+
+    window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener(
+      "unhandledrejection",
+      this.catchAllUnhandledErrors
+    );
   }
 
   render() {
     if (!this.props.isInitialized) {
-      return <Loader />;
+      return (
+        <div>
+          <Loader />
+          <ModalErrorContainer />
+        </div>
+      );
     }
 
     return (
@@ -39,6 +59,7 @@ class App extends Component {
               </Routes>
             </React.Suspense>
           </div>
+          <ModalErrorContainer />
         </div>
       </BrowserRouter>
     );
@@ -49,4 +70,7 @@ const mapStateToProps = (state) => ({
   isInitialized: state.app.initialized,
 });
 
-export default connect(mapStateToProps, { initializeApp_tc })(App);
+export default connect(mapStateToProps, {
+  initializeApp_tc,
+  setGlobalError_tc,
+})(App);

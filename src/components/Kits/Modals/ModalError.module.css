@@ -1,0 +1,17 @@
+.errors {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 99;
+}
+
+.error {
+  padding: 20px;
+  background-color: red;
+  color: white;
+  font-size: 20px;
+}
+
+.errors .error + .error {
+  margin-top: 20px;
+}

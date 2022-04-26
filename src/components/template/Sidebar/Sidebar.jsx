@@ -1,10 +1,11 @@
 import c from "./Sidebar.module.css";
 import k from "Kits.module.css";
 import NavContainer from "components/template/Nav/NavContainer";
+import cn from "classnames";
 
 const Sidebar = () => {
   return (
-    <aside className={c.sidebar + " " + k.container}>
+    <aside className={cn(c.sidebar, k.container)}>
       <NavContainer />
     </aside>
   );

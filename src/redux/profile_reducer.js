@@ -1,6 +1,7 @@
 import { usersAPI, profileAPI } from "api/api";
 import { stopSubmit } from "redux-form";
 import { toLowerCaseFirstLetter } from "./../utils/heplers/helpers";
+import { setGlobalError_tc } from "./app_reducer";
 
 const ADD_POST = "ADD-POST";
 const DELETE_POST = "DELETE-POST";
@@ -90,19 +91,31 @@ export const setUserPhoto_ac = (photos) => ({
 });
 
 export const getProfile = (userId) => async (dispatch) => {
-  let data = await usersAPI.getUserProfile(userId);
-  dispatch(setUserProfile(data));
+  try {
+    let data = await usersAPI.getUserProfile(userId);
+    dispatch(setUserProfile(data));
+  } catch (error) {
+    dispatch(setGlobalError_tc(error.message));
+  }
 };
 
 export const getStatus = (userId) => async (dispatch) => {
-  let data = await profileAPI.getUserStatus(userId);
-  dispatch(setUserStatus(data));
+  try {
+    let data = await profileAPI.getUserStatus(userId);
+    dispatch(setUserStatus(data));
+  } catch (error) {
+    dispatch(setGlobalError_tc(error.message));
+  }
 };
 
 export const updateStatus = (status) => async (dispatch) => {
-  let data = await profileAPI.updateUserStatus(status);
-  if (data.resultCode === 0) {
-    dispatch(setUserStatus(status));
+  try {
+    let data = await profileAPI.updateUserStatus(status);
+    if (data.resultCode === 0) {
+      dispatch(setUserStatus(status));
+    }
+  } catch (error) {
+    dispatch(setGlobalError_tc(error.message));
   }
 };
 
@@ -110,40 +123,48 @@ export const updateMainPhoto = (photo) => async (dispatch) => {
   const formData = new FormData();
   formData.append("image", photo);
 
-  let data = await profileAPI.updateUserPhoto(formData);
+  try {
+    let data = await profileAPI.updateUserPhoto(formData);
 
-  if (data.resultCode === 0) {
-    dispatch(setUserPhoto_ac(data.data.photos));
+    if (data.resultCode === 0) {
+      dispatch(setUserPhoto_ac(data.data.photos));
+    }
+  } catch (error) {
+    dispatch(setGlobalError_tc(error.message));
   }
 };
 
 export const saveProfile = (profile) => async (dispatch, getState) => {
   const userId = getState().auth.userId;
 
-  let data = await profileAPI.updateUserProfile(profile);
+  try {
+    let data = await profileAPI.updateUserProfile(profile);
 
-  if (data.resultCode === 0) {
-    dispatch(getProfile(userId));
-  } else {
-    let errorMessage =
-      data.messages.length > 0 ? data.messages[0] : "Some error";
-
-    let errorField = errorMessage.match(/\(.*\)/g)[0].slice(1, -1);
-    const errorObject = {};
-
-    if (errorField.split("->")[1]) {
-      errorField = toLowerCaseFirstLetter(errorField.split("->")[1]);
-
-      errorObject["contacts"] = {};
-      errorObject["contacts"][errorField] = errorMessage;
+    if (data.resultCode === 0) {
+      dispatch(getProfile(userId));
     } else {
-      errorField = toLowerCaseFirstLetter(errorField.split("->")[0]);
+      let errorMessage =
+        data.messages.length > 0 ? data.messages[0] : "Some error";
 
-      errorObject[errorField] = errorMessage;
+      let errorField = errorMessage.match(/\(.*\)/g)[0].slice(1, -1);
+      const errorObject = {};
+
+      if (errorField.split("->")[1]) {
+        errorField = toLowerCaseFirstLetter(errorField.split("->")[1]);
+
+        errorObject["contacts"] = {};
+        errorObject["contacts"][errorField] = errorMessage;
+      } else {
+        errorField = toLowerCaseFirstLetter(errorField.split("->")[0]);
+
+        errorObject[errorField] = errorMessage;
+      }
+
+      dispatch(stopSubmit("editProfileForm", errorObject));
+      return Promise.reject(errorMessage);
     }
-
-    dispatch(stopSubmit("editProfileForm", errorObject));
-    return Promise.reject(errorMessage);
+  } catch (error) {
+    dispatch(setGlobalError_tc(error.message));
   }
 };
 

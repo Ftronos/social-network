@@ -1,4 +1,5 @@
 import c from "./Pagination.module.css";
+import cn from "classnames";
 
 const Pagination = ({ currentPage, ...props }) => {
   const onPageChaned = (pageNumber) => {
@@ -34,17 +35,15 @@ const Pagination = ({ currentPage, ...props }) => {
   }
 
   const paginationElements = pages.map((page) => {
-    const className =
-      c.pagination__item +
-      (currentPage === page ? " " + c.pagination__item_active : "");
-
     return (
       <span
         onClick={() => {
           onPageChaned(page);
         }}
         key={page}
-        className={className}
+        className={cn(c.pagination__item, {
+          [c.pagination__item_active]: currentPage === page,
+        })}
       >
         {page}
       </span>
@@ -63,13 +62,13 @@ const Pagination = ({ currentPage, ...props }) => {
         Первая
       </span>
       {showSideLeft ? (
-        <span className={c.pagination__item + " " + c.pagination__item_side}>
+        <span className={cn(c.pagination__item, c.pagination__item_side)}>
           ...
         </span>
       ) : null}
       {paginationElements}
       {showSideRight ? (
-        <span className={c.pagination__item + " " + c.pagination__item_side}>
+        <span className={cn(c.pagination__item, c.pagination__item_side)}>
           ...
         </span>
       ) : null}
