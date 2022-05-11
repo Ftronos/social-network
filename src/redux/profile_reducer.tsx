@@ -179,7 +179,7 @@ export const getStatus =
     try {
       let data = await profileAPI.getUserStatus(userId);
       dispatch(setUserStatus(data));
-    } catch (error: object) {
+    } catch (error: any) {
       dispatch(setGlobalError_tc(error.message));
     }
   };
@@ -197,7 +197,7 @@ export const updateStatus =
   };
 
 export const updateMainPhoto =
-  (photo: object) => async (dispatch: (f: any) => void) => {
+  (photo: Blob) => async (dispatch: (f: any) => void) => {
     const formData = new FormData();
     formData.append("image", photo);
     console.log(photo);
