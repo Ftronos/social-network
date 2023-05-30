@@ -1,61 +1,30 @@
-import { profileAPI, usersAPI } from "api/api";
-import { stopSubmit } from "redux-form";
+import { profileAPI, resultCodes_enum, usersAPI } from "api/api";
+import { FormAction, stopSubmit } from "redux-form";
+import { ThunkAction } from "redux-thunk";
+import { AppState_type, InferActionsTypes } from "redux/redux-store";
+import { photos_type, post_type, profile_type } from "types/types";
 import { toLowerCaseFirstLetter } from "../utils/heplers/helpers";
 import { setGlobalError_tc } from "./app_reducer";
-import { AnyAction } from "redux";
 
-const ADD_POST = "ADD-POST";
-const DELETE_POST = "DELETE-POST";
-const SET_USER_PROFILE = "SET-USER-PROFILE";
-const SET_STATUS = "SET-USER-STATUS";
-const SET_PHOTOS = "SET-PHOTOS";
-
-type profile_type = {
-  userId: number;
-  lookingForAJob: boolean;
-  lookingForAJobDescription: string;
-  fullName: string;
-  contacts: {
-    github: string;
-    vk: string;
-    facebook: string;
-    instagram: string;
-    twitter: string;
-    website: string;
-    youtube: string;
-    mainLink: string;
-  };
-};
-
-type photos_type = {
-  large: string;
-  small: string;
-};
-
-type post_type = {
-  id: number;
-  text: string;
-};
-
-type inititalState_type = {
-  myPosts: Array<post_type>;
-  profile: profile_type | null;
-  status: string;
-};
-
-let initialState: inititalState_type = {
+let initialState = {
   myPosts: [
     { id: 1, text: "Hello!" },
     { id: 2, text: "How are you?" },
     { id: 3, text: "Thanks, fine!" },
-  ],
-  profile: null,
-  status: "",
+  ] as Array<post_type>,
+  profile: null as profile_type | null,
+  status: "" as string | null,
+  newPostText: "Hello world!" as string | null,
 };
 
-const profileReducer = (state = initialState, action: AnyAction) => {
+export type initialState_type = typeof initialState;
+
+const profileReducer = (
+  state = initialState,
+  action: Actions_types
+): initialState_type => {
   switch (action.type) {
-    case ADD_POST: {
+    case "ADD_POST": {
       if (!action.newPostText) {
         console.error("Empty post text");
 
@@ -74,15 +43,15 @@ const profileReducer = (state = initialState, action: AnyAction) => {
       };
     }
 
-    case SET_USER_PROFILE: {
+    case "SET_USER_PROFILE": {
       return { ...state, profile: action.profile };
     }
 
-    case SET_STATUS: {
+    case "SET_STATUS": {
       return { ...state, status: action.status };
     }
 
-    case DELETE_POST: {
+    case "DELETE_POST": {
       return {
         ...state,
         myPosts: state.myPosts.filter(
@@ -91,8 +60,11 @@ const profileReducer = (state = initialState, action: AnyAction) => {
       };
     }
 
-    case SET_PHOTOS: {
-      return { ...state, profile: { ...state.profile, photos: action.photos } };
+    case "SET_PHOTOS": {
+      return {
+        ...state,
+        profile: { ...state.profile, photos: action.photos } as profile_type,
+      };
     }
 
     default: {
@@ -101,95 +73,77 @@ const profileReducer = (state = initialState, action: AnyAction) => {
   }
 };
 
-type addPost_a_type = {
-  type: typeof ADD_POST;
-  newPostText: string;
+type Actions_types = InferActionsTypes<typeof propfileActions>;
+
+export const propfileActions = {
+  addPost_ac: (newPostText: string) =>
+    ({
+      type: "ADD_POST",
+      newPostText,
+    } as const),
+
+  deletePost_ac: (postId: number) =>
+    ({
+      type: "DELETE_POST",
+      postId,
+    } as const),
+
+  setUserProfile: (profile: profile_type) =>
+    ({
+      type: "SET_USER_PROFILE",
+      profile,
+    } as const),
+
+  setUserStatus: (status: string) =>
+    ({
+      type: "SET_STATUS",
+      status,
+    } as const),
+
+  setUserPhoto_ac: (photos: photos_type) =>
+    ({
+      type: "SET_PHOTOS",
+      photos,
+    } as const),
 };
 
-export const addPost_ac: (newPostText: string) => addPost_a_type = (
-  newPostText
-) => ({
-  type: ADD_POST,
-  newPostText,
-});
-
-type deletePost_a_type = {
-  type: typeof DELETE_POST;
-  postId: number;
-};
-
-export const deletePost_ac: (postId: number) => deletePost_a_type = (
-  postId
-) => ({
-  type: DELETE_POST,
-  postId,
-});
-
-type setUserProfile_a_type = {
-  type: typeof SET_USER_PROFILE;
-  profile: profile_type;
-};
-
-export const setUserProfile: (
-  profile: profile_type
-) => setUserProfile_a_type = (profile) => ({
-  type: SET_USER_PROFILE,
-  profile,
-});
-
-type setUserStatus_a_type = {
-  type: typeof SET_STATUS;
-  status: string;
-};
-
-export const setUserStatus: (status: string) => setUserStatus_a_type = (
-  status
-) => ({
-  type: SET_STATUS,
-  status,
-});
-
-type setUserPhoto_a_type = {
-  type: typeof SET_PHOTOS;
-  photos: photos_type;
-};
-
-export const setUserPhoto_ac: (photos: photos_type) => setUserPhoto_a_type = (
-  photos
-) => ({
-  type: SET_PHOTOS,
-  photos,
-});
+type Thunk_type = ThunkAction<
+  Promise<void>,
+  AppState_type,
+  unknown,
+  Actions_types
+>;
 
 export const getProfile =
-  (userId: number) => async (dispatch: (f: any) => void) => {
+  (userId: number): Thunk_type =>
+  async (dispatch) => {
     try {
       let data = await usersAPI.getUserProfile(userId);
 
-      dispatch(setUserProfile(data));
+      dispatch(propfileActions.setUserProfile(data));
     } catch (error: any) {
-      console.log(error);
-
       dispatch(setGlobalError_tc(error.message));
     }
   };
 
 export const getStatus =
-  (userId: number) => async (dispatch: (f: any) => void) => {
+  (userId: number): Thunk_type =>
+  async (dispatch) => {
     try {
       let data = await profileAPI.getUserStatus(userId);
-      dispatch(setUserStatus(data));
+      dispatch(propfileActions.setUserStatus(data));
     } catch (error: any) {
       dispatch(setGlobalError_tc(error.message));
     }
   };
 
 export const updateStatus =
-  (status: string) => async (dispatch: (f: any) => void) => {
+  (status: string): Thunk_type =>
+  async (dispatch) => {
     try {
       let data = await profileAPI.updateUserStatus(status);
-      if (data.resultCode === 0) {
-        dispatch(setUserStatus(status));
+      if (data.resultCode === resultCodes_enum.Success) {
+        dispatch(propfileActions.setUserStatus(status));
       }
     } catch (error: any) {
       dispatch(setGlobalError_tc(error.message));
@@ -197,16 +151,21 @@ export const updateStatus =
   };
 
 export const updateMainPhoto =
-  (photo: Blob) => async (dispatch: (f: any) => void) => {
+  (photo: Blob): Thunk_type =>
+  async (dispatch) => {
     const formData = new FormData();
     formData.append("image", photo);
-    console.log(photo);
 
     try {
       let data = await profileAPI.updateUserPhoto(formData);
 
-      if (data.resultCode === 0) {
-        dispatch(setUserPhoto_ac(data.data.photos));
+      if (data.resultCode === resultCodes_enum.Success) {
+        dispatch(
+          propfileActions.setUserPhoto_ac({
+            small: data.data.small,
+            large: data.data.large,
+          })
+        );
       }
     } catch (error: any) {
       dispatch(setGlobalError_tc(error.message));
@@ -214,20 +173,36 @@ export const updateMainPhoto =
   };
 
 export const saveProfile =
-  (profile: profile_type) =>
-  async (dispatch: (f: any) => void, getState: Function) => {
+  (
+    profile: profile_type
+  ): ThunkAction<
+    Promise<void>,
+    AppState_type,
+    unknown,
+    Actions_types | FormAction
+  > =>
+  async (dispatch, getState) => {
     const userId = getState().auth.userId;
 
     try {
       let data = await profileAPI.updateUserProfile(profile);
 
-      if (data.resultCode === 0) {
-        dispatch(getProfile(userId));
+      if (data.resultCode === resultCodes_enum.Success) {
+        if (userId) {
+          dispatch(getProfile(userId));
+        } else {
+          dispatch(setGlobalError_tc("Пользователь не определен"));
+        }
       } else {
         let errorMessage =
           data.messages.length > 0 ? data.messages[0] : "Some error";
 
-        let errorField = errorMessage.match(/\(.*\)/g)[0].slice(1, -1);
+        let errorField = "";
+
+        if (errorMessage.match(/\(.*\)/g) !== null) {
+          errorField = errorMessage[0].slice(1, -1);
+        }
+
         const errorObject: { [key: string]: any } = {};
 
         if (errorField.split("->")[1]) {

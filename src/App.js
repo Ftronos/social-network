@@ -17,7 +17,6 @@ import ModalErrorContainer from "components/Kits/Modals/ModalErrorContainer";
 
 class App extends Component {
   catchAllUnhandledErrors = (err) => {
-    //console.error(err.reason.message);
     this.props.setGlobalError_tc(err.reason.message);
   };
 
